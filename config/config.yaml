@@ -1,13 +1,14 @@
 astra_db:
-  collection_name: "ecommercedata"
+  collection_name: "ecommdata"
 
-embedding_model:
-  provider: "google"
-  model_name: "models/text-embedding-004"
+embeddings_model:
+  provider: "huggingface"
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
 
 retriever:
-  top_k: 10
+  top_k: 3
 
 llm:
-  provider: "google"
-  model_name: "deepseek-r1-distill-llama-70b" 
+  provider: "groq"
+  model_name: "llama-3.1-8b-instant"
+  temperature: 0.2    
