@@ -1,5 +1,5 @@
 env
-venv
+myenv
 .env
 e_commerce_bot.egg-info
 archive
