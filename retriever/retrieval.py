@@ -7,7 +7,7 @@ from utils.config_loader import load_config
 from utils.model_loader import ModelLoader
 
 
-class Retriver:
+class Retriever:
 
     def __init__(self):
         self.model_loader = ModelLoader() #Automatic validation happens no need of def _load_env_variables(self)
@@ -56,7 +56,7 @@ class Retriver:
         return output
     
 if __name__=="__main__":
-    retriever_obj =Retriver()
+    retriever_obj =Retriever()
     query="Suggest me budget friendly earphones"
     response = retriever_obj.call_retriever(query)
 
