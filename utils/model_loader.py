@@ -52,7 +52,6 @@ class ModelLoader:
         """
         print("LLM loading...")
         model_name=self.config["llm"]["model_name"]
-        print(self.groq_api_key)
         groq_model=ChatGroq(model=model_name,api_key=self.groq_api_key)
         #gemini_model=ChatGoogleGenerativeAI(model=model_name)
         
