@@ -11,37 +11,38 @@ class DataIngestion:
     """
     Class to handle data transformation and ingestion into AstraDB vector store.
     """
-
     def __init__(self):
         """
         Initialize environment variables, embedding model, and set CSV file path.
         """
         print("Initializing DataIngestion pipeline...")
-        load_dotenv()
+        #load_dotenv()
         self.model_loader = ModelLoader()
         self.config = load_config()
-        self._load_env_variables()
+        #self._load_env_variables()
         self.file_path = self._get_csv_path()
         self.product_data =self._load_csv()
 
-    def _load_env_variables(self):
-        """
-        Load and validate required environment variables.
-        """
-        required_vars=["ASTRA_DB_ENDPOINT", "ASTRA_DB_APPLICATION_TOKEN", "ASTRA_DB_KEYSPACE"]   
+    # def _load_env_variables(self):
+    #     """
+    #     Load and validate required environment variables.
+    #     """
+    #     required_vars=["ASTRA_DB_ENDPOINT", "ASTRA_DB_APPLICATION_TOKEN", "ASTRA_DB_KEYSPACE"]   
 
-        missing_vars = [var for var in required_vars if os.getenv(var) is None] 
-        if missing_vars:
-            raise EnvironmentError(f"Missing environment variables: {missing_vars}")
+    #     missing_vars = [var for var in required_vars if os.getenv(var) is None] 
+    #     if missing_vars:
+    #         raise EnvironmentError(f"Missing environment variables: {missing_vars}")
         
-        self.db_api_endpoint = os.getenv('ASTRA_DB_ENDPOINT')
-        self.db_application_token = os.getenv('ASTRA_DB_APPLICATION_TOKEN')
-        self.db_keyspace = os.getenv('ASTRA_DB_KEYSPACE')
+    #     self.db_api_endpoint = os.getenv('ASTRA_DB_ENDPOINT')
+    #     self.db_application_token = os.getenv('ASTRA_DB_APPLICATION_TOKEN')
+    #     self.db_keyspace = os.getenv('ASTRA_DB_KEYSPACE')
 
     def _get_csv_path(self):
         """
         Get path to the CSV file located inside 'data' folder.
         """   
+        # current_dir = os.getcwd()
+        # csv_path = os.path.join(current_dir, 'data', 'flipkart_product_review.csv')
         base_path = os.getenv('PROJECT_DATA_DIR')
         csv_path=os.path.join(base_path,"data","flipkart_product_review.csv")
         print("------csv_path------",csv_path)
@@ -89,9 +90,9 @@ class DataIngestion:
         vstore = AstraDBVectorStore(
             embedding= self.model_loader.load_embeddings(),
             collection_name=collection_name,
-            api_endpoint=self.db_api_endpoint,
-            token=self.db_application_token,
-            namespace=self.db_keyspace,
+            api_endpoint=self.model_loader.db_api_endpoint,
+            token=self.model_loader.db_application_token,
+            namespace=self.model_loader.db_keyspace,
         )
 
         inserted_ids = vstore.add_documents(documents)
@@ -118,3 +119,11 @@ class DataIngestion:
 if __name__=='__main__':
     ingestion = DataIngestion()
     ingestion.run_pipeline()
+
+
+
+# from pathlib import Path
+
+# #project_root = Path(__file__).resolve().parent.parent
+# project_root = Path.cwd() 
+# print(project_root)

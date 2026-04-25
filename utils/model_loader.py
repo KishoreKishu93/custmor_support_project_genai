@@ -20,14 +20,23 @@ class ModelLoader:
         """
         Validate necessary environment variables.
         """
-        required_vars = ["HF_TOKEN","GROQ_API_KEY"]
+        required_vars = ["HF_TOKEN","GROQ_API_KEY","ASTRA_DB_ENDPOINT", "ASTRA_DB_APPLICATION_TOKEN", "ASTRA_DB_KEYSPACE"]
         # Force clear old key if cached
         # if "GROQ_API_KEY" in os.environ:
         #     del os.environ["GROQ_API_KEY"]
-        self.groq_api_key=os.getenv("GROQ_API_KEY")
+        
+        missing_vars = [var for var in required_vars if os.getenv(var) is None] 
         missing_vars = [var for var in required_vars if not os.getenv(var)]
         if missing_vars:
-            raise EnvironmentError(f"Missing environment variables: {missing_vars}")
+            raise EnvironmentError(f"Missing environment variables: {missing_vars}") 
+
+        self.groq_api_key=os.getenv("GROQ_API_KEY")
+        self.hugging_face_toke=os.getenv("HF_TOKEN")
+        
+        self.db_api_endpoint = os.getenv('ASTRA_DB_ENDPOINT')
+        self.db_application_token = os.getenv('ASTRA_DB_APPLICATION_TOKEN')
+        self.db_keyspace = os.getenv('ASTRA_DB_KEYSPACE')
+
 
     def load_embeddings(self):
         """
