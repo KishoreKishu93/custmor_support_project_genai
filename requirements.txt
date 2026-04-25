@@ -11,5 +11,6 @@ langchain_core
 langchain_groq
 ipykernel
 langchain-huggingface
+sentence-transformers
 
 -e . #it will help execute setup.py file and install the package in editable mode, allowing you to make changes to the code without reinstalling the package.
